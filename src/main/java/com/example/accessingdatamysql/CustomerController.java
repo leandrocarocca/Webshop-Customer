@@ -4,10 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
 public class CustomerController {
+    @GetMapping("/whoami")
+    public String whoami(Principal principal) {
+        return principal.getName();
+    }
 
     private final CustomerRepo customerRepo;
     private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
@@ -18,6 +23,11 @@ public class CustomerController {
 
     @RequestMapping("/customers")
     public List<Customer> getAllCustomers() {
+        log.info("All customers are listed here");
+        return customerRepo.findAll();
+    }
+    @RequestMapping("/loginCustomer")
+    public List<Customer> getAllCustomer() {
         log.info("All customers are listed here");
         return customerRepo.findAll();
     }
@@ -34,8 +44,8 @@ public class CustomerController {
     }
 
 
-    @PostMapping("customers/add")
-    public String addCustomer2(@RequestBody Customer c){
+    @PostMapping("/customers/add")
+    public String addCustomer(@RequestBody Customer c){
         String name = c.getName();
         String ssn = c.getSsn();
 
