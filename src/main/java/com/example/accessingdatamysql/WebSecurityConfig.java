@@ -19,9 +19,9 @@ public class WebSecurityConfig {
             throws Exception {
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/loginCustomer").hasRole("ADMIN")
-                        .requestMatchers("whoami").hasRole("ADMIN")
+                        .requestMatchers("/whoami").hasRole("ADMIN")
                         .requestMatchers("/customers").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/customers/***").permitAll())
                 .httpBasic(withDefaults());
         return http.build();
     }
